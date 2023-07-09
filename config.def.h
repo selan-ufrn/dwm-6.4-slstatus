@@ -90,6 +90,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Right,  focusdir,       {.i = 1 } }, // right
 	{ MODKEY,                       XK_Up,     focusdir,       {.i = 2 } }, // up
 	{ MODKEY,                       XK_Down,   focusdir,       {.i = 3 } }, // down
+  { MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
+	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
