@@ -28,31 +28,29 @@ static const char *fonts[]          = {
   "monospace:size=10"
 };
 static const char dmenufont[]       = "Fira Code:style=Medium:pixelsize=18:antialias=true:autohint=true";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
 
-static const char sel_fg[]          = "#ffffff";
-static const char sel_bg[]          = "#000000";
-static const char sel_border[]      = "#00FFFF";
-static const char norm_fg[]         = "#777777";
-static const char norm_bg[]         = "#000000";
-static const char norm_border[]     = "#444444";
+// ====================================================
+// Now Colors come from colors/stock.h
+// See that header to lear how to customize colors.
+// ====================================================
+#include "colors/stock.h" // Custom colors. See comment in the code, where colors were originally defined.
+
+// static const char sel_fg[]          = "#ffffff";
+// static const char sel_bg[]          = "#000000";
+// static const char norm_fg[]         = "#777777";
+// static const char norm_bg[]         = "#000000";
+//
+// static const char norm_border[]     = "#444444";
+// static const char sel_border[]      = "#00FFFF";
+// static const char *colors[][3]      = {
+// 	/*               fg         bg         border   */
+// 	[SchemeNorm]  = { norm_fg,   norm_bg,   norm_border},
+// 	[SchemeSel]   = { sel_fg,    sel_bg,    sel_border },
+// };
+
 static const unsigned int baralpha = 0x00U;
 // static const unsigned int baralpha = 0xd0;
 static const unsigned int borderalpha = OPAQUE;
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm]  = { norm_fg,   norm_bg,   norm_border},
-	[SchemeSel] = { sel_fg,    sel_bg,    sel_border },
-};
-// static const char *colors[][3]      = {
-// 	/*               fg         bg         border   */
-// 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-// 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-// };
 
 static const unsigned int alphas[][3]      = {
     /*               fg      bg        border*/
@@ -116,11 +114,11 @@ static const Layout layouts[] = {
 	// { "|M|",      centeredmaster },
 	// { ">M>",      centeredfloatingmaster },
 	// { NULL,       NULL },
-	{ " ",      tile },    /* first entry is default */
-	{ " ",      NULL },    /* no layout function means floating behavior */
-	{ " ",      monocle },
-	{ " ",      centeredmaster },
-	{ " ",      centeredfloatingmaster },
+	{ " |",      tile },    /* first entry is default */
+	{ " |",      NULL },    /* no layout function means floating behavior */
+	{ " |",      monocle },
+	{ " |",      centeredmaster },
+	{ " |",      centeredfloatingmaster },
 	{ NULL,       NULL },
 };
 
@@ -142,12 +140,6 @@ static const char *dmenucmd[] = {
 	"dmenu_run",
 	// "j4-dmenu-desktop",
 	"-m", dmenumon,
-	"-fn", dmenufont,
-	"-nb", col_gray1,
-	"-nf", col_gray3,
-	"-sb", col_cyan,
-	"-sf", col_gray4,
-  "-l" , "15",
   "-c" , NULL,
 	NULL
 };
