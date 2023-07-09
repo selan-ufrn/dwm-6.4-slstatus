@@ -1,0 +1,112 @@
+From 2a76c6dfc588fcff1eb45f103131b2267407e448 Mon Sep 17 00:00:00 2001
+From: Selan R dos Santos <selan.santos@ufrn.br>
+Date: Sun, 9 Jul 2023 11:46:33 -0300
+Subject: [PATCH] applied barpadding patch
+
+---
+ config.def.h                                  |   2 +
+ dwm.c                                         |  23 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+ delete mode 100644 patches/statusbar/04_dwm-barpadding-20211020-a786211.diff
+ delete mode 100644 patches/statusbar/dwm-statuspadding-6.3.diff
+
+diff --git a/config.def.h b/config.def.h
+index d0a5644..e869021 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,6 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const int showbar            = 1;        /* 0 means no bar */
+ static const int topbar             = 1;        /* 0 means bottom bar */
++static const int vertpad            = 10;       /* vertical padding of bar */
++static const int sidepad            = 10;       /* horizontal padding of bar */
+ static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
+ static const int vertpadbar         = 10;        /* vertical padding for statusbar */
+ static const char *fonts[]          = { "monospace:size=10" };
+diff --git a/dwm.c b/dwm.c
+index 72ed98c..28f5643 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -246,6 +246,8 @@ static int screen;
+ static int sw, sh;           /* X display screen geometry width, height */
+ static int bh;               /* bar height */
+ static int lrpad;            /* sum of left and right padding for text */
++static int vp;               /* vertical padding for bar */
++static int sp;               /* side padding for bar */
+ static int (*xerrorxlib)(Display *, XErrorEvent *);
+ static unsigned int numlockmask = 0;
+ static void (*handler[LASTEvent]) (XEvent *) = {
+@@ -583,7 +585,7 @@ configurenotify(XEvent *e)
+ 				for (c = m->clients; c; c = c->next)
+ 					if (c->isfullscreen)
+ 						resizeclient(c, m->mx, m->my, m->mw, m->mh);
+-				XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
++				XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, m->ww -  2 * sp, bh);
+ 			}
+ 			focus(NULL);
+ 			arrange(NULL);
+@@ -724,7 +726,8 @@ drawbar(Monitor *m)
+ 	if (m == selmon) { /* status is only drawn on selected monitor */
+ 		drw_setscheme(drw, scheme[SchemeNorm]);
+ 		tw = TEXTW(stext);
+-		drw_text(drw, m->ww - tw, 0, tw, bh, lrpad / 2, stext, 0);
++ // drw_text(drw, m->ww - tw         , 0, tw, bh, lrpad / 2, stext, 0);
++		drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, lrpad / 2, stext, 0);
+ 	}
+ 
+ 	for (c = m->clients; c; c = c->next) {
+@@ -749,7 +752,7 @@ drawbar(Monitor *m)
+ 
+ 	if ((w = m->ww - tw - x) > bh) {
+ 			drw_setscheme(drw, scheme[SchemeNorm]);
+-			drw_rect(drw, x, 0, w, bh, 1, 1);
++			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+ 	}
+ 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
+ }
+@@ -1554,6 +1557,8 @@ setup(void)
+ 		die("no fonts could be loaded.");
+ 	lrpad = drw->fonts->h + horizpadbar;
+ 	bh = drw->fonts->h + vertpadbar;
++	sp = sidepad;
++	vp = (topbar == 1) ? vertpad : - vertpad;
+ 	updategeom();
+ 	/* init atoms */
+ 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
+@@ -1720,7 +1725,7 @@ togglebar(const Arg *arg)
+ {
+ 	selmon->showbar = !selmon->showbar;
+ 	updatebarpos(selmon);
+-	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
++	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + sp, selmon->by + vp, selmon->ww - 2 * sp, bh);
+ 	arrange(selmon);
+ }
+ 
+@@ -1833,7 +1838,7 @@ updatebars(void)
+ 	for (m = mons; m; m = m->next) {
+ 		if (m->barwin)
+ 			continue;
+-		m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, depth,
++		m->barwin = XCreateWindow(dpy, root, m->wx + sp, m->by + vp, m->ww - 2 * sp, bh, 0, depth,
+ 				InputOutput, visual,
+ 				CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWColormap|CWEventMask, &wa);
+ 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
+@@ -1848,11 +1853,11 @@ updatebarpos(Monitor *m)
+ 	m->wy = m->my;
+ 	m->wh = m->mh;
+ 	if (m->showbar) {
+-		m->wh -= bh;
+-		m->by = m->topbar ? m->wy : m->wy + m->wh;
+-		m->wy = m->topbar ? m->wy + bh : m->wy;
++		m->wh = m->wh - vertpad - bh;
++		m->by = m->topbar ? m->wy : m->wy + m->wh + vertpad;
++		m->wy = m->topbar ? m->wy + bh + vp : m->wy;
+ 	} else
+-		m->by = -bh;
++		m->by = -bh - vp;
+ }
+ 
+ void
+-- 
+2.41.0
+
