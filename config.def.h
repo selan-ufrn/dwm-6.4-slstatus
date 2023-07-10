@@ -19,7 +19,7 @@ static const int sidepad            = 10;       /* horizontal padding of bar */
 static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 10;        /* vertical padding for statusbar */
 static const char *fonts[]          = { 
-	"SFMono Nerd Font Mono:style=Medium:pixelsize=16:antialias=true:autohint=true",
+	"SFMono Nerd Font Mono:style=Regular:pixelsize=16:antialias=true:autohint=true",
 	"Phosphor:style=regular:pixelsize=20:antialias=true:autohint=true",
   "JetBrainsMono Nerd Font:style=Medium:pixelsize=16:antialias=true:autohint=true",
   "Fira Code:style=Medium:pixelsize=20:antialias=true:autohint=true",
