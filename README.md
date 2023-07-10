@@ -11,9 +11,7 @@ This is my custom build of `dwm` version 6.4 with some patches (in the order the
     - **statuspadding**: _adds control over the internal padding of the statusbar_.
     - **barpadding**: _adds control over the surrounding padding of the statusbar_.
     - **underlinetags**: _draws a line under the current tag_.
-    - **remove-indicator-selected**: _removes the little square of the selected tag, as it already has an underlining bar_.
     - **statusallmons**: _show the statusbar in all monitors_.
-
 
 2. Pacthes related to the overall behavior of `dwm`.
     - **restartsig**: _supports restarting `dwm` via keybinding_.
