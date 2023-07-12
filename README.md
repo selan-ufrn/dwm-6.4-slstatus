@@ -22,7 +22,7 @@ This is my custom build of `dwm` version 6.4 with some patches (in the order the
     - **centeredmaster**: _provides two extra windows layout_.
     - **cyclelayouts**: _allows switching layouts in sequence via keybinding_.
     - **focusdir**: _allows focusing clients to the left/right, bottom/up using vim navigation style_.
-    - **push**: _moves the focused client through layout positions._
+    - **push**: _moves the focused client around the layout positions._
     - **save floats**: _preserves the geometry of all client windows when activating the float layout_.
     - **focus fullscreen**: _supports cycling through clients in fullscreen mode_.
     - **center**: _defines rules that enable specifying which clients should appear centered and floating_.
